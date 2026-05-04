@@ -6,12 +6,20 @@ import { Label } from './components/ui/label';
 import { Textarea } from './components/ui/textarea';
 import { BookingDialog } from './components/BookingDialog';
 import { ServiceDetailDialog } from './components/ServiceDetailDialog';
+import { ReferralModal } from './components/ReferralModal';
+import { LearnMoreModal } from './components/LearnMoreModal';
+import { ProjectGalleryModal } from './components/ProjectGalleryModal';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './components/ui/accordion';
 import { Badge } from './components/ui/badge';
-import { Hammer, Wrench, Lightbulb, PaintBucket, Droplets, Zap, Package, CheckCircle2, Clock, Mail, Phone, MapPin, Shield, SparklesIcon, ArrowRight, Star, Award, Users, ThumbsUp, TrendingUp, BookOpen, Gift, X } from 'lucide-react';
+import { Hammer, Wrench, PaintBucket, Package, CheckCircle2, Clock, Mail, Phone, MapPin, Shield, SparklesIcon, ArrowRight, Star, Gift, X, Award, ThumbsUp } from 'lucide-react';
 import { toast } from 'sonner';
 import { Toaster } from './components/ui/sonner';
-import logoImg from '../imports/image.png';
+import logoSvg from '../imports/image-2.png';
+import felixPhoto from '../imports/image-4.png';
+import stair1 from '../imports/662748912_122170810484859319_3543507322848373909_n.jpg';
+import stair2 from '../imports/661252325_122170810580859319_6655024017485692952_n.jpg';
+import stair3 from '../imports/663175339_122170810568859319_6837095142625851206_n.jpg';
+import stair4 from '../imports/657108529_122170810556859319_9028591813388796478_n.jpg';
 
 export default function App() {
   const [bookingOpen, setBookingOpen] = useState(false);
@@ -19,6 +27,10 @@ export default function App() {
   const [selectedService, setSelectedService] = useState<any>(null);
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
   const [showPromoBanner, setShowPromoBanner] = useState(true);
+  const [referralOpen, setReferralOpen] = useState(false);
+  const [learnMoreOpen, setLearnMoreOpen] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<any>(null);
 
   const services = [
     {
@@ -185,8 +197,8 @@ export default function App() {
       name: 'Jessica Thompson',
       image: 'https://images.unsplash.com/photo-1730575959795-c55aba81e703?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=200',
       rating: 5,
-      text: 'The bi-weekly cleaning service has been a game changer for our family. Our house has never looked better and we actually have time for weekend activities now!',
-      service: 'Cleaning Services'
+      text: 'The staircase renovation was absolutely stunning! Felix was meticulous with every detail and the transformation exceeded our expectations. True craftsmanship!',
+      service: 'Renovation'
     },
     {
       name: 'David Rodriguez',
@@ -200,60 +212,41 @@ export default function App() {
   const portfolioItems = [
     {
       type: 'before-after',
-      before: 'https://images.unsplash.com/photo-1749001157641-08113d7313e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
-      after: 'https://images.unsplash.com/photo-1731557482469-35cd8c3a378b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
+      before: stair1,
+      after: stair4,
+      images: [stair1, stair2, stair3, stair4],
+      title: 'Staircase Renovation',
+      description: 'Complete staircase refinishing from start to finish'
+    },
+    {
+      type: 'single',
+      image: 'https://images.unsplash.com/photo-1627795925931-9e112aefe8a7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+      title: 'Custom Carpentry',
+      description: 'Built-in shelving and woodwork'
+    },
+    {
+      type: 'single',
+      image: 'https://images.unsplash.com/photo-1639059790587-95625e6b764c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
       title: 'Living Room Refresh',
-      description: 'Complete painting and fixture updates'
+      description: 'Painting and trim work'
     },
     {
       type: 'single',
-      image: 'https://images.unsplash.com/photo-1584677191047-38f48d0db64e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      title: 'Professional Tools',
-      description: 'Quality tools for quality work'
-    },
-    {
-      type: 'before-after',
-      before: 'https://images.unsplash.com/photo-1768321902047-2296fd495fa4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
-      after: 'https://images.unsplash.com/photo-1747227590487-001890c65865?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
-      title: 'Hallway Renovation',
-      description: 'Drywall repair, painting, and new lighting'
+      image: 'https://images.unsplash.com/photo-1635348291497-8c28ef034996?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+      title: 'Deck Repair',
+      description: 'Restored and sealed outdoor deck'
     },
     {
       type: 'single',
-      image: 'https://images.unsplash.com/photo-1533780898421-b118c81ac26b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      title: 'Tool Organization',
-      description: 'Well-maintained equipment'
-    },
-    {
-      type: 'single',
-      image: 'https://images.unsplash.com/photo-1606676539940-12768ce0e762?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      title: 'Power Tools',
-      description: 'Professional grade equipment'
-    },
-    {
-      type: 'before-after',
-      before: 'https://images.unsplash.com/photo-1673648068157-b35556bc25ca?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
-      after: 'https://images.unsplash.com/photo-1753977725475-41b221add2c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600',
-      title: 'Exterior Transformation',
-      description: 'Siding repair and fresh paint'
+      image: 'https://images.unsplash.com/photo-1634638415860-cef1aafb60c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+      title: 'Interior Paint Job',
+      description: 'Fresh paint and modern colors'
     },
     {
       type: 'single',
       image: 'https://images.unsplash.com/photo-1540103711724-ebf833bde8d1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      title: 'Hand Tools Collection',
-      description: 'Every job needs the right tool'
-    },
-    {
-      type: 'single',
-      image: 'https://images.unsplash.com/photo-1567361808960-dec9cb578182?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      title: 'Carpentry Work',
-      description: 'Custom woodworking projects'
-    },
-    {
-      type: 'single',
-      image: 'https://images.unsplash.com/photo-1763798816055-9a03df62bd65?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-      title: 'Workshop Setup',
-      description: 'Organized and ready to work'
+      title: 'Furniture Assembly',
+      description: 'Professional assembly services'
     }
   ];
 
@@ -326,41 +319,55 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white" lang="en">
       <Toaster />
 
       {/* Promotional Banner */}
       {showPromoBanner && (
-        <div className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 px-4 relative">
+        <div className="bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-3 px-4 relative" role="banner" aria-label="Promotional offer">
           <div className="container mx-auto text-center">
             <p className="text-sm sm:text-base font-medium">
-              <Gift className="inline w-4 h-4 mr-2" />
-              Spring Special: Get 15% off your first cleaning service! Use code SPRING2026
+              <SparklesIcon className="inline w-4 h-4 mr-2" aria-hidden="true" />
+              Spring Refresh Special: Get 15% off home maintenance and repair projects! Use code SPRING2026
             </p>
           </div>
           <button
             onClick={() => setShowPromoBanner(false)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 hover:bg-white/20 rounded-full p-1"
+            className="absolute right-4 top-1/2 -translate-y-1/2 hover:bg-white/20 rounded-full p-2 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-teal-600"
+            aria-label="Close promotional banner"
           >
-            <X className="w-4 h-4" />
+            <X className="w-4 h-4" aria-hidden="true" />
           </button>
         </div>
       )}
 
+      {/* Skip to main content - Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-teal-600 focus:text-white focus:rounded-md focus:outline-none focus:ring-2 focus:ring-teal-400"
+      >
+        Skip to main content
+      </a>
+
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div className="container mx-auto px-4 py-3">
+      <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-800 to-slate-900 shadow-lg border-b border-slate-700">
+        <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img src={logoImg} alt="Fix This Felix Logo" className="h-12 sm:h-14" />
+              <img src={logoSvg} alt="Fix This Felix - Professional Handyman Services" className="h-12 sm:h-14" />
             </div>
-            <nav className="hidden md:flex items-center gap-6 mr-auto ml-8">
-              <a href="#services" className="text-slate-700 hover:text-teal-600 transition-colors">Services</a>
-              <a href="#gallery" className="text-slate-700 hover:text-teal-600 transition-colors">Gallery</a>
-              <a href="#about" className="text-slate-700 hover:text-teal-600 transition-colors">About</a>
-              <a href="#contact" className="text-slate-700 hover:text-teal-600 transition-colors">Contact</a>
+            <nav className="hidden md:flex items-center gap-6 mr-auto ml-8" aria-label="Main navigation">
+              <a href="#services" className="text-slate-100 hover:text-teal-400 transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-teal-400 focus:rounded px-2 py-1">Services</a>
+              <a href="#gallery" className="text-slate-100 hover:text-teal-400 transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-teal-400 focus:rounded px-2 py-1">Gallery</a>
+              <a href="#about" className="text-slate-100 hover:text-teal-400 transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-teal-400 focus:rounded px-2 py-1">About</a>
+              <a href="#contact" className="text-slate-100 hover:text-teal-400 transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-teal-400 focus:rounded px-2 py-1">Contact</a>
             </nav>
-            <Button onClick={() => setBookingOpen(true)} size="sm" className="bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600">
+            <Button
+              onClick={() => setBookingOpen(true)}
+              size="sm"
+              className="bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-white focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 focus:ring-offset-slate-800"
+              aria-label="Book a service appointment"
+            >
               Book Now
             </Button>
           </div>
@@ -368,41 +375,42 @@ export default function App() {
       </header>
 
       {/* Hero Section */}
-      <section className="py-12 sm:py-20 px-4 bg-gradient-to-br from-teal-50 via-emerald-50 to-lime-50">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center space-y-6">
-            <h1 className="text-4xl sm:text-6xl font-bold bg-gradient-to-r from-teal-600 to-emerald-600 bg-clip-text text-transparent">
-              Saving the world.<br />One project at a time.
-            </h1>
-            <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto">
-              Expert home maintenance and repair services. We handle your honey-do list so you don't have to.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 pt-4">
-              <Button onClick={() => setBookingOpen(true)} size="lg" className="bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-lg px-8">
-                Get Started
-              </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 border-teal-500 text-teal-600 hover:bg-teal-50" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
-                Contact Us
-              </Button>
-            </div>
-            <div className="flex flex-wrap justify-center gap-6 sm:gap-8 pt-8">
-              {features.map((feature, idx) => (
-                <div key={idx} className="flex items-center gap-2">
-                  <feature.icon className="w-5 h-5 text-teal-600" />
-                  <span className="text-sm sm:text-base text-slate-700">{feature.text}</span>
-                </div>
-              ))}
+      <main id="main-content">
+        <section className="py-16 sm:py-24 px-4 bg-gradient-to-br from-slate-50 via-white to-teal-50/30" aria-labelledby="hero-heading">
+          <div className="container mx-auto max-w-6xl">
+            <div className="text-center space-y-6">
+              <h1 id="hero-heading" className="text-4xl sm:text-6xl font-bold text-slate-900">
+                Saving the world.<br />One project at a time.
+              </h1>
+              <p className="text-lg sm:text-xl text-slate-700 max-w-2xl mx-auto">
+                Expert home maintenance and repair services. We handle your honey-do list so you don't have to.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4 pt-4">
+                <Button onClick={() => setBookingOpen(true)} size="lg" className="bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600 text-lg px-8">
+                  Get Started
+                </Button>
+                <Button variant="outline" size="lg" className="text-lg px-8 border-teal-500 text-teal-600 hover:bg-teal-50" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+                  Contact Us
+                </Button>
+              </div>
+              <div className="flex flex-wrap justify-center gap-6 sm:gap-8 pt-8">
+                {features.map((feature, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <feature.icon className="w-5 h-5 text-teal-600" aria-hidden="true" />
+                    <span className="text-sm sm:text-base text-slate-700">{feature.text}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* Services Section */}
-      <section className="py-12 sm:py-20 px-4" id="services">
+      <section className="py-12 sm:py-20 px-4" id="services" aria-labelledby="services-heading">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Our Services</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
+            <h2 id="services-heading" className="text-3xl sm:text-4xl font-bold mb-4 text-slate-900">Our Services</h2>
+            <p className="text-slate-700 max-w-2xl mx-auto">
               Click any service to see details, pricing, and photos of our work
             </p>
           </div>
@@ -410,38 +418,48 @@ export default function App() {
             {services.map((service, idx) => (
               <Card
                 key={idx}
-                className="group hover:shadow-xl transition-all hover:border-teal-300 overflow-hidden cursor-pointer"
+                className="group hover:shadow-xl transition-all hover:border-teal-300 overflow-hidden cursor-pointer focus-within:ring-2 focus-within:ring-teal-400"
                 onClick={() => handleServiceClick(service)}
+                tabIndex={0}
+                role="button"
+                aria-label={`View details for ${service.title}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleServiceClick(service);
+                  }
+                }}
               >
                 <div className="aspect-video overflow-hidden bg-slate-100">
                   <img
                     src={service.image}
-                    alt={service.title}
+                    alt={`${service.title} service`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
                 <CardHeader className="pb-3">
                   <div className="flex items-start gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-xl flex items-center justify-center flex-shrink-0" aria-hidden="true">
                       <service.icon className="w-6 h-6 text-white" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <CardTitle className="text-lg mb-1 group-hover:text-teal-600 transition-colors">{service.title}</CardTitle>
-                      <CardDescription className="text-sm">{service.description}</CardDescription>
+                      <CardTitle className="text-lg mb-1 group-hover:text-teal-600 transition-colors text-slate-900">{service.title}</CardTitle>
+                      <CardDescription className="text-sm text-slate-700">{service.description}</CardDescription>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
                   <Button
                     variant="ghost"
-                    className="w-full justify-between text-teal-600 hover:text-teal-700 hover:bg-teal-50"
+                    className="w-full justify-between text-teal-600 hover:text-teal-700 hover:bg-teal-50 focus:ring-2 focus:ring-teal-400"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleServiceClick(service);
                     }}
+                    aria-label={`View details for ${service.title}`}
                   >
                     View Details
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
                   </Button>
                 </CardContent>
               </Card>
@@ -451,7 +469,7 @@ export default function App() {
       </section>
 
       {/* Trust Badges / Stats Section */}
-      <section className="py-12 sm:py-16 px-4 bg-gradient-to-br from-teal-50 via-emerald-50 to-lime-50">
+      <section className="py-12 sm:py-16 px-4 bg-slate-50/50 border-y border-slate-100">
         <div className="container mx-auto max-w-6xl">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center">
@@ -463,7 +481,7 @@ export default function App() {
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-3">
-                <Users className="w-8 h-8 text-white" />
+                <Star className="w-8 h-8 text-white" />
               </div>
               <h3 className="font-bold text-2xl text-teal-600 mb-1">500+</h3>
               <p className="text-sm text-slate-600">Happy Customers</p>
@@ -487,18 +505,18 @@ export default function App() {
       </section>
 
       {/* About Felix Section */}
-      <section className="py-12 sm:py-20 px-4 bg-white" id="about">
+      <section className="py-12 sm:py-20 px-4 bg-white" id="about" aria-labelledby="about-heading">
         <div className="container mx-auto max-w-6xl">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <img
-                src="https://images.unsplash.com/photo-1461938337379-4b537cd2db74?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=600"
+                src={felixPhoto}
                 alt="Felix - Professional Handyman"
-                className="rounded-2xl shadow-xl w-full"
+                className="rounded-2xl shadow-xl w-full object-cover"
               />
             </div>
             <div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-6">Meet Felix</h2>
+              <h2 id="about-heading" className="text-3xl sm:text-4xl font-bold mb-6 text-slate-900">Meet Felix</h2>
               <p className="text-slate-700 mb-4 leading-relaxed">
                 Hi, I'm Felix! For over 5 years, I've been helping homeowners in our community tackle their to-do lists and transform their spaces. What started as helping friends and neighbors has grown into a passion for making homes better, one project at a time.
               </p>
@@ -519,11 +537,11 @@ export default function App() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-12 sm:py-20 px-4 bg-white">
+      <section className="py-12 sm:py-20 px-4 bg-white" aria-labelledby="testimonials-heading">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">What Our Customers Say</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
+            <h2 id="testimonials-heading" className="text-3xl sm:text-4xl font-bold mb-4 text-slate-900">What Our Customers Say</h2>
+            <p className="text-slate-700 max-w-2xl mx-auto">
               Don't just take our word for it - hear from our satisfied customers
             </p>
           </div>
@@ -534,20 +552,20 @@ export default function App() {
                   <div className="flex items-start gap-4 mb-4">
                     <img
                       src={testimonial.image}
-                      alt={testimonial.name}
+                      alt={`${testimonial.name}, customer photo`}
                       className="w-16 h-16 rounded-full object-cover"
                     />
                     <div className="flex-1">
-                      <h4 className="font-semibold">{testimonial.name}</h4>
-                      <div className="flex gap-1 my-1">
+                      <h3 className="font-semibold text-slate-900">{testimonial.name}</h3>
+                      <div className="flex gap-1 my-1" role="img" aria-label={`${testimonial.rating} out of 5 stars`}>
                         {[...Array(testimonial.rating)].map((_, i) => (
-                          <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                          <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" aria-hidden="true" />
                         ))}
                       </div>
-                      <p className="text-xs text-teal-600">{testimonial.service}</p>
+                      <p className="text-xs text-teal-700 font-medium">{testimonial.service}</p>
                     </div>
                   </div>
-                  <p className="text-slate-700 leading-relaxed">"{testimonial.text}"</p>
+                  <p className="text-slate-800 leading-relaxed">"{testimonial.text}"</p>
                 </CardContent>
               </Card>
             ))}
@@ -556,17 +574,34 @@ export default function App() {
       </section>
 
       {/* Portfolio Gallery Section */}
-      <section className="py-12 sm:py-20 px-4 bg-gradient-to-br from-teal-50 via-emerald-50 to-lime-50" id="gallery">
+      <section className="py-12 sm:py-20 px-4 bg-slate-50/50" id="gallery" aria-labelledby="gallery-heading">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Our Work</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
-              From transformations to the tools and techniques that make it happen
+            <h2 id="gallery-heading" className="text-3xl sm:text-4xl font-bold mb-4 text-slate-900">Our Work</h2>
+            <p className="text-slate-700 max-w-2xl mx-auto">
+              Recent projects and transformations
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {portfolioItems.map((item, idx) => (
-              <Card key={idx} className="overflow-hidden hover:shadow-xl transition-all group border-2 hover:border-teal-300">
+              <Card
+                key={idx}
+                className="overflow-hidden hover:shadow-xl transition-all group border-2 hover:border-teal-300 cursor-pointer focus-within:ring-2 focus-within:ring-teal-400"
+                onClick={() => {
+                  setSelectedProject(item);
+                  setGalleryOpen(true);
+                }}
+                tabIndex={0}
+                role="button"
+                aria-label={`View enlarged photo of ${item.title}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setSelectedProject(item);
+                    setGalleryOpen(true);
+                  }
+                }}
+              >
                 {item.type === 'before-after' ? (
                   <>
                     <div className="relative bg-gradient-to-r from-teal-600 to-emerald-600 text-white py-2 px-4">
@@ -574,20 +609,20 @@ export default function App() {
                     </div>
                     <div className="relative">
                       <div className="grid grid-cols-2">
-                        <div className="relative aspect-square">
-                          <img src={item.before} alt="Before" className="w-full h-full object-cover" />
+                        <div className="relative aspect-[3/4]">
+                          <img src={item.before} alt={`Before ${item.title}`} className="w-full h-full object-cover" />
                           <div className="absolute bottom-2 left-2 bg-slate-900/90 text-white text-xs font-semibold px-3 py-1.5 rounded">
                             Before
                           </div>
                         </div>
-                        <div className="relative aspect-square">
-                          <img src={item.after} alt="After" className="w-full h-full object-cover" />
+                        <div className="relative aspect-[3/4]">
+                          <img src={item.after} alt={`After ${item.title}`} className="w-full h-full object-cover" />
                           <div className="absolute bottom-2 right-2 bg-teal-600/90 text-white text-xs font-semibold px-3 py-1.5 rounded">
                             After
                           </div>
                         </div>
                       </div>
-                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg">
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-lg" aria-hidden="true">
                         <ArrowRight className="w-5 h-5 text-teal-600" />
                       </div>
                     </div>
@@ -596,7 +631,7 @@ export default function App() {
                   <div className="relative aspect-square overflow-hidden bg-slate-100">
                     <img
                       src={item.image}
-                      alt={item.title}
+                      alt={`${item.title} - ${item.description}`}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -604,7 +639,7 @@ export default function App() {
                 )}
                 <CardContent className="p-4">
                   <h3 className="font-semibold mb-1 text-slate-900">{item.title}</h3>
-                  <p className="text-sm text-slate-600">{item.description}</p>
+                  <p className="text-sm text-slate-700">{item.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -613,11 +648,11 @@ export default function App() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-12 sm:py-20 px-4 bg-white">
+      <section className="py-12 sm:py-20 px-4 bg-white" aria-labelledby="faq-heading">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-            <p className="text-slate-600">
+            <h2 id="faq-heading" className="text-3xl sm:text-4xl font-bold mb-4 text-slate-900">Frequently Asked Questions</h2>
+            <p className="text-slate-700">
               Got questions? We've got answers!
             </p>
           </div>
@@ -634,60 +669,34 @@ export default function App() {
         </div>
       </section>
 
-      {/* Tips/Blog Section */}
-      <section className="py-12 sm:py-20 px-4 bg-gradient-to-br from-teal-50 via-emerald-50 to-lime-50">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Helpful Tips & Guides</h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
-              Expert advice to help you maintain and improve your home
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6">
-            {blogTips.map((tip, idx) => (
-              <Card key={idx} className="overflow-hidden hover:shadow-xl transition-all group cursor-pointer">
-                <div className="aspect-video overflow-hidden bg-slate-100">
-                  <img
-                    src={tip.image}
-                    alt={tip.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <CardHeader>
-                  <Badge variant="secondary" className="w-fit mb-2">{tip.category}</Badge>
-                  <CardTitle className="text-lg group-hover:text-teal-600 transition-colors">
-                    {tip.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-slate-600">{tip.excerpt}</p>
-                  <Button variant="link" className="px-0 mt-3 text-teal-600">
-                    Read More <ArrowRight className="w-4 h-4 ml-1" />
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Referral Program Section */}
-      <section className="py-12 sm:py-20 px-4 bg-white">
+      <section className="py-12 sm:py-20 px-4 bg-white" aria-labelledby="referral-heading">
         <div className="container mx-auto max-w-4xl">
           <Card className="overflow-hidden border-2 border-teal-200 bg-gradient-to-br from-teal-50 to-emerald-50">
             <CardContent className="p-8 sm:p-12 text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+              <div className="w-20 h-20 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6" aria-hidden="true">
                 <Gift className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-3xl font-bold mb-4">Love Our Service? Share the Love!</h2>
-              <p className="text-slate-700 mb-6 max-w-2xl mx-auto">
-                Refer a friend or family member to Fix This Felix and you'll both receive <span className="font-bold text-teal-600">$25 off</span> your next service. It's our way of saying thank you for spreading the word!
+              <h2 id="referral-heading" className="text-3xl font-bold mb-4 text-slate-900">Love Our Service? Share the Love!</h2>
+              <p className="text-slate-800 mb-6 max-w-2xl mx-auto">
+                Refer a friend or family member to Fix This Felix and you'll both receive <span className="font-bold text-teal-700">$25 off</span> your next service. It's our way of saying thank you for spreading the word!
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button onClick={() => setBookingOpen(true)} size="lg" className="bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600">
+                <Button
+                  onClick={() => setReferralOpen(true)}
+                  size="lg"
+                  className="bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 focus:ring-2 focus:ring-teal-400 focus:ring-offset-2"
+                  aria-label="Open referral form to refer a friend"
+                >
                   Refer a Friend
                 </Button>
-                <Button variant="outline" size="lg" className="border-teal-500 text-teal-600 hover:bg-teal-50">
+                <Button
+                  onClick={() => setLearnMoreOpen(true)}
+                  variant="outline"
+                  size="lg"
+                  className="border-teal-600 text-teal-700 hover:bg-teal-50 focus:ring-2 focus:ring-teal-400 focus:ring-offset-2"
+                  aria-label="Learn more about the referral program"
+                >
                   Learn More
                 </Button>
               </div>
@@ -700,34 +709,34 @@ export default function App() {
       </section>
 
       {/* Contact Section */}
-      <section className="py-12 sm:py-20 px-4 bg-gradient-to-br from-teal-50 via-emerald-50 to-lime-50" id="contact">
+      <section className="py-12 sm:py-20 px-4 bg-white" id="contact" aria-labelledby="contact-heading">
         <div className="container mx-auto max-w-6xl">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">Get In Touch</h2>
+          <h2 id="contact-heading" className="text-3xl sm:text-4xl font-bold text-center mb-12 text-slate-900">Get In Touch</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-6">
               <Card className="border-teal-100">
                 <CardContent className="pt-6">
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full flex items-center justify-center" aria-hidden="true">
                         <Phone className="w-5 h-5 text-white" />
                       </div>
                       <div>
                         <p className="font-semibold">Phone</p>
-                        <a href="tel:719-229-2564" className="text-slate-600 hover:text-teal-600">719-229-2564</a>
+                        <a href="tel:719-229-2564" className="text-slate-600 hover:text-teal-600" aria-label="Call 719-229-2564">719-229-2564</a>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full flex items-center justify-center" aria-hidden="true">
                         <Mail className="w-5 h-5 text-white" />
                       </div>
                       <div>
                         <p className="font-semibold">Email</p>
-                        <a href="mailto:letfelixfixit@gmail.com" className="text-slate-600 hover:text-teal-600 break-all">letfelixfixit@gmail.com</a>
+                        <a href="mailto:letfelixfixit@gmail.com" className="text-slate-600 hover:text-teal-600 break-all" aria-label="Email letfelixfixit@gmail.com">letfelixfixit@gmail.com</a>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full flex items-center justify-center" aria-hidden="true">
                         <MapPin className="w-5 h-5 text-white" />
                       </div>
                       <div>
@@ -736,7 +745,7 @@ export default function App() {
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-emerald-500 rounded-full flex items-center justify-center" aria-hidden="true">
                         <Clock className="w-5 h-5 text-white" />
                       </div>
                       <div>
@@ -796,12 +805,14 @@ export default function App() {
         </div>
       </section>
 
+      </main>
+
       {/* Footer */}
-      <footer className="py-8 px-4 border-t border-slate-200 bg-white">
+      <footer className="py-8 px-4 border-t border-slate-700 bg-gradient-to-r from-slate-800 to-slate-900" role="contentinfo">
         <div className="container mx-auto max-w-6xl">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <img src={logoImg} alt="Fix This Felix Logo" className="h-10" />
-            <p className="text-slate-600 text-sm">&copy; 2026 Fix This Felix. All rights reserved.</p>
+            <img src={logoSvg} alt="Fix This Felix - Professional Handyman Services" className="h-10" />
+            <p className="text-slate-300 text-sm">&copy; 2026 Fix This Felix. All rights reserved.</p>
           </div>
         </div>
       </footer>
@@ -812,6 +823,13 @@ export default function App() {
         onOpenChange={setServiceDetailOpen}
         service={selectedService}
         onBookNow={() => setBookingOpen(true)}
+      />
+      <ReferralModal open={referralOpen} onOpenChange={setReferralOpen} />
+      <LearnMoreModal open={learnMoreOpen} onOpenChange={setLearnMoreOpen} />
+      <ProjectGalleryModal
+        open={galleryOpen}
+        onOpenChange={setGalleryOpen}
+        project={selectedProject}
       />
     </div>
   );

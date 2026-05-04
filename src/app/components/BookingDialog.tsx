@@ -123,15 +123,9 @@ export function BookingDialog({ open, onOpenChange }: BookingDialogProps) {
                 <SelectValue placeholder="Select time" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="9am">9:00 AM</SelectItem>
-                <SelectItem value="10am">10:00 AM</SelectItem>
-                <SelectItem value="11am">11:00 AM</SelectItem>
-                <SelectItem value="12pm">12:00 PM</SelectItem>
-                <SelectItem value="1pm">1:00 PM</SelectItem>
-                <SelectItem value="2pm">2:00 PM</SelectItem>
-                <SelectItem value="3pm">3:00 PM</SelectItem>
-                <SelectItem value="4pm">4:00 PM</SelectItem>
-                <SelectItem value="5pm">5:00 PM</SelectItem>
+                <SelectItem value="morning">Morning (8AM - 12PM)</SelectItem>
+                <SelectItem value="afternoon">Afternoon (12PM - 5PM)</SelectItem>
+                <SelectItem value="weekend">Weekend</SelectItem>
               </SelectContent>
             </Select>
           </div>
